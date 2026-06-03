@@ -1,58 +1,78 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import dynamic from "next/dynamic"
+import { BentoCardProps } from "@/components/magic-bento"
 
-const items = [
+const MagicBento = dynamic(() => import("@/components/magic-bento"), {
+  ssr: false,
+  loading: () => null,
+})
+
+const faqCards: BentoCardProps[] = [
   {
-    q: "¿Qué es un Gaussian Splat y por qué se ve tan bien?",
-    a: `Un Gaussian Splat es una representación 3D donde la escena se modela como millones de pequeñas elipses gaussianas en lugar de triángulos (como en los videojuegos). Eso permite capturar vidrios, reflejos, translucidez, plantas y telas con un fotorrealismo que los renders poligonales no pueden alcanzar. El resultado es una escena que literalmente parece una foto, pero que se puede recorrer libremente en primera persona.`,
+    color: "#141414",
+    label: "Tecnología",
+    title: "¿Qué son los Gaussian Splats?",
+    description:
+      "Millones de elipses gaussianas en lugar de triángulos. Capta reflejos, vidrios y telas con fotorrealismo imposible para los renders poligonales tradicionales.",
   },
   {
-    q: "¿Funciona en mi celular? ¿Y con datos móviles?",
-    a: `Funciona en cualquier dispositivo con soporte para WebGL2: iPhone 12 en adelante, Android con Chrome actualizado, y cualquier browser de escritorio moderno. Con datos móviles depende del ancho de banda disponible — la primera carga puede tardar unos segundos más, pero una vez cargado el tour funciona fluidamente porque toda la data está en el cliente.`,
+    color: "#141414",
+    label: "Compatibilidad",
+    title: "¿Funciona en el celular?",
+    description:
+      "iPhone 12+, Android con Chrome actualizado, cualquier browser moderno con WebGL2. Sin apps, sin plugins, sin VR headset.",
   },
   {
-    q: "¿Cuánto pesa cada tour?",
-    a: `Depende del tamaño y complejidad de la propiedad. Un departamento típico de 60–90 m² pesa entre 80 MB y 200 MB. Usamos compresión agresiva y streaming progresivo, así que el tour empieza a ser usable antes de que termine la descarga completa. No es algo que vayas a notar en una red razonable.`,
+    color: "#141414",
+    label: "Integración",
+    title: "¿Lo puedo embeber en mi sitio o en ZonaProp?",
+    description:
+      "En tu propio sitio: sí, con un iframe listo para pegar — te damos el código. En ZonaProp y MercadoLibre el embed externo está limitado, pero podés poner el link directo en la descripción o con un QR en las fotos. También funciona desde Instagram y WhatsApp.",
   },
   {
-    q: "¿Puedo embeberlo en mi propio sitio o en mi listing de ZonaProp?",
-    a: `En tu propio sitio: sí, con un simple iframe. Te damos el código listo para pegar. En ZonaProp y MercadoLibre: el embed en el listing depende de si la plataforma permite iframes externos (actualmente limitado), pero podés poner el link del tour directamente en la descripción o en fotos con QR. También podés linkedear desde Instagram o WhatsApp.`,
+    color: "#141414",
+    label: "Tiempo de entrega",
+    title: "¿Cuánto tarda el link desde la captura?",
+    description:
+      "24–48 horas. La sesión de captura en la propiedad dura 30–45 min para un depto de 80 m². El entrenamiento corre en la nube. Te avisamos por WhatsApp cuando el link está listo.",
   },
   {
-    q: "¿En qué se diferencia esto de Matterport?",
-    a: `Matterport genera modelos de malla 3D (triángulos) y trabaja con teleportación entre puntos fijos con un mapa de planta. Los Gaussian Splats son mucho más fotorrealistas (especialmente en materiales especulares), el viewer pesa menos, corre en cualquier dispositivo sin app, y el movimiento es libre en primera persona. La contrapartida: todavía no generamos planos técnicos exportables ni mediciones automáticas, que Matterport sí tiene.`,
+    color: "#141414",
+    label: "Peso",
+    title: "¿Cuánto pesa cada tour?",
+    description:
+      "80–200 MB para un depto de 60–90 m². Streaming progresivo: el tour es usable antes de terminar la descarga completa.",
   },
   {
-    q: "¿Cuánto tarda desde la captura hasta tener el link?",
-    a: `El proceso completo tarda entre 24 y 48 horas desde la captura. La sesión de captura en la propiedad dura 30–45 minutos para una unidad de 80 m². El entrenamiento del modelo corre en la nube — no hay intervención tuya. Te avisamos por WhatsApp cuando el link está listo.`,
-  },
-  {
-    q: "¿Hacen cobertura fuera de Buenos Aires?",
-    a: `Por ahora operamos en el AMBA. Para propiedades en otras provincias o en LATAM, estamos armando acuerdos con operadores locales. Si tenés una propiedad en otro lado, mandanos un mensaje igual — dependiendo del volumen lo podemos coordinar o conectarte con alguien de la red.`,
+    color: "#141414",
+    label: "Cobertura",
+    title: "¿Operan fuera del AMBA?",
+    description:
+      "Por ahora el equipo está en Buenos Aires. Para otras provincias o LATAM, escribinos igual — lo coordinamos o te conectamos con alguien de la red.",
   },
 ]
 
 export function FAQ() {
   return (
     <section id="faq" className="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <p className="font-mono text-xs text-white/30 uppercase tracking-widest mb-4">
           // preguntas frecuentes
         </p>
-        <h2 className="text-2xl sm:text-3xl font-bold text-white/90 mb-10">FAQ.</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white/90 mb-8">FAQ.</h2>
 
-        <Accordion type="single" collapsible className="w-full">
-          {items.map((item, i) => (
-            <AccordionItem key={i} value={`item-${i}`}>
-              <AccordionTrigger>{item.q}</AccordionTrigger>
-              <AccordionContent>{item.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <MagicBento
+          cards={faqCards}
+          textAutoHide={false}
+          enableStars={true}
+          enableSpotlight={true}
+          enableBorderGlow={true}
+          enableTilt={false}
+          enableMagnetism={false}
+          clickEffect={true}
+          spotlightRadius={440}
+          particleCount={8}
+          glowColor="0, 255, 136"
+        />
       </div>
     </section>
   )
