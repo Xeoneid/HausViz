@@ -1,8 +1,15 @@
 "use client"
 
 import { useState } from "react"
+import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, MousePointer2, Hand } from "lucide-react"
+
+// Silk uses Three.js / WebGL — must be client-only (no SSR)
+const SilkBackground = dynamic(() => import("@/components/silk"), {
+  ssr: false,
+  loading: () => null,
+})
 
 export function Hero() {
   const [iframeLoaded, setIframeLoaded] = useState(false)
@@ -17,18 +24,25 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6">
-      {/* Subtle grid background */}
+      {/* Silk WebGL background — dark accent-green shimmer at low opacity */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.12]">
+        <SilkBackground
+          speed={1.8}
+          scale={1.4}
+          color="#00ff88"
+          noiseIntensity={1.2}
+          rotation={0.4}
+        />
+      </div>
+
+      {/* Vignette — fades the silk out at the edges so content stays readable */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 40%, transparent 30%, #0a0a0a 80%)",
         }}
       />
-
-      {/* Subtle radial glow top-center */}
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full opacity-[0.07] blur-3xl bg-accent" />
 
       <div className="relative max-w-6xl mx-auto w-full">
         {/* Badge */}
