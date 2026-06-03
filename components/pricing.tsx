@@ -75,7 +75,7 @@ export function Pricing() {
               key={tier.name}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all duration-200 ${
                 tier.highlight
-                  ? "border-accent/30 bg-accent/[0.04] shadow-[0_0_40px_rgba(0,255,136,0.07)]"
+                  ? "border-accent/30 bg-accent/[0.04] shadow-[0_0_40px_rgba(0,255,136,0.07)] order-first md:order-none"
                   : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12]"
               }`}
             >

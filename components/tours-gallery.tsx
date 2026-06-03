@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Play, X } from "lucide-react"
+import { Play } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -26,7 +26,7 @@ function TourCard({ tour }: { tour: typeof tours[0] }) {
   return (
     <Dialog onOpenChange={() => setModalLoaded(false)}>
       <DialogTrigger asChild>
-        <div className="group cursor-pointer rounded-xl border border-white/[0.07] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.04] transition-all duration-200 overflow-hidden">
+        <div className="group cursor-pointer rounded-xl border border-white/[0.07] bg-white/[0.02] active:scale-[0.98] hover:border-white/[0.14] hover:bg-white/[0.04] transition-all duration-200 overflow-hidden">
           {/* Thumbnail placeholder */}
           <div className="relative aspect-video bg-[#141414] flex flex-col items-center justify-center gap-2 border-b border-white/[0.06]">
             {/* Animated scan lines */}
@@ -45,9 +45,9 @@ function TourCard({ tour }: { tour: typeof tours[0] }) {
               <span className="block">{tour.barrio} · {tour.m2} · {tour.amb}</span>
             </div>
 
-            {/* Play button */}
-            <div className="relative mt-2 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-200">
-              <Play className="h-4 w-4 text-white/50 group-hover:text-accent ml-0.5 transition-colors" />
+            {/* Play button — más grande en mobile para mejor touch target */}
+            <div className="relative mt-2 flex h-12 w-12 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-200">
+              <Play className="h-5 w-5 sm:h-4 sm:w-4 text-white/50 group-hover:text-accent ml-0.5 transition-colors" />
             </div>
           </div>
 
@@ -66,16 +66,22 @@ function TourCard({ tour }: { tour: typeof tours[0] }) {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="w-[95vw] max-w-5xl p-0">
+      {/* Modal: full-screen en mobile, centered en desktop */}
+      <DialogContent className="
+        fixed inset-0 w-full h-full max-w-none translate-x-0 translate-y-0 left-0 top-0 rounded-none p-0
+        sm:inset-auto sm:left-[50%] sm:top-[50%] sm:w-[95vw] sm:h-auto sm:max-w-5xl
+        sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-xl
+        flex flex-col
+      ">
         {/* Modal header */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.07]">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.07] shrink-0">
           <span className="font-mono text-xs text-white/40">
             {tour.id} · {tour.barrio} · {tour.m2}
           </span>
         </div>
 
-        {/* Modal iframe */}
-        <div className="relative w-full bg-[#0d0d0d]" style={{ aspectRatio: "16/9" }}>
+        {/* iframe: flex-1 en mobile (llena el alto), aspect-video en desktop */}
+        <div className="relative flex-1 sm:flex-none sm:aspect-[4/3] md:aspect-video bg-[#0d0d0d]">
           {!modalLoaded && (
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="font-mono text-xs text-white/25 animate-pulse tracking-widest">
@@ -87,16 +93,17 @@ function TourCard({ tour }: { tour: typeof tours[0] }) {
             src={TOUR_URL}
             allow="fullscreen"
             onLoad={() => setModalLoaded(true)}
-            className={`w-full h-full border-0 transition-opacity duration-300 ${
+            className={`absolute inset-0 w-full h-full border-0 transition-opacity duration-300 ${
               modalLoaded ? "opacity-100" : "opacity-0"
             }`}
             title={`Tour 3D ${tour.id}`}
           />
         </div>
 
-        <div className="px-5 py-2.5 border-t border-white/[0.06]">
+        <div className="px-5 py-2.5 border-t border-white/[0.06] shrink-0">
           <p className="font-mono text-[10px] text-white/25">
-            // hacé click en cualquier punto para caminar — WASD también funciona
+            <span className="sm:hidden">tocá para caminar · pellizca para zoom</span>
+            <span className="hidden sm:inline">// hacé click en cualquier punto para caminar — WASD también funciona</span>
           </p>
         </div>
       </DialogContent>
@@ -106,12 +113,12 @@ function TourCard({ tour }: { tour: typeof tours[0] }) {
 
 export function ToursGallery() {
   return (
-    <section id="tours" className="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
+    <section id="tours" className="py-20 sm:py-24 px-4 sm:px-6 border-t border-white/[0.06]">
       <div className="max-w-6xl mx-auto">
         <p className="font-mono text-xs text-white/30 uppercase tracking-widest mb-4">
           // tours en vivo
         </p>
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 sm:gap-4 mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-white/90">
             Propiedades disponibles.
           </h2>
