@@ -66,8 +66,8 @@ export function FAQ() {
           enableStars={true}
           enableSpotlight={true}
           enableBorderGlow={true}
-          enableTilt={false}
-          enableMagnetism={false}
+          enableTilt={true}
+          enableMagnetism={true}
           clickEffect={true}
           spotlightRadius={440}
           particleCount={8}
