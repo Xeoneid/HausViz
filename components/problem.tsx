@@ -1,4 +1,7 @@
+"use client"
+
 import { Camera, Video, Compass } from "lucide-react"
+import BorderGlow from "@/components/border-glow"
 
 const problems = [
   {
@@ -22,7 +25,6 @@ export function Problem() {
   return (
     <section className="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
       <div className="max-w-6xl mx-auto">
-        {/* Section label */}
         <p className="font-mono text-xs text-white/30 uppercase tracking-widest mb-4">
           // el problema
         </p>
@@ -32,20 +34,31 @@ export function Problem() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {problems.map(({ icon: Icon, title, body }) => (
-            <div
+            <BorderGlow
               key={title}
-              className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-6 hover:border-white/[0.12] hover:bg-white/[0.04] transition-all duration-200"
+              backgroundColor="#111111"
+              borderRadius={16}
+              glowColor="152 100 50"
+              colors={["#00ff88", "#00cc6a", "#004d29"]}
+              glowRadius={55}
+              glowIntensity={1.1}
+              edgeSensitivity={25}
+              coneSpread={22}
+              fillOpacity={0.35}
+              animated={false}
+              className="h-full"
             >
-              <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
-                <Icon className="h-4 w-4 text-white/50" />
+              <div className="p-6">
+                <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
+                  <Icon className="h-4 w-4 text-white/50" />
+                </div>
+                <h3 className="font-semibold text-white mb-2">{title}</h3>
+                <p className="text-sm text-white/45 leading-relaxed">{body}</p>
               </div>
-              <h3 className="font-semibold text-white mb-2">{title}</h3>
-              <p className="text-sm text-white/45 leading-relaxed">{body}</p>
-            </div>
+            </BorderGlow>
           ))}
         </div>
 
-        {/* Closing line */}
         <div className="mt-10 pt-8 border-t border-white/[0.06] text-center">
           <p className="text-base sm:text-lg font-medium text-white/80 max-w-2xl mx-auto">
             Los splats 3D resuelven los tres.{" "}
