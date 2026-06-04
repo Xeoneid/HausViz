@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import BorderGlow from "@/components/border-glow"
 
 const tiers = [
   {
@@ -73,51 +74,63 @@ export function Pricing() {
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`relative flex flex-col rounded-2xl border p-7 transition-all duration-200 ${
-                tier.highlight
-                  ? "border-accent/30 bg-accent/[0.04] shadow-[0_0_40px_rgba(0,255,136,0.07)] order-first md:order-none"
-                  : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12]"
-              }`}
+              className={`relative ${tier.highlight ? "order-first md:order-none" : ""}`}
             >
               {tier.highlight && (
-                <div className="absolute -top-px left-1/2 -translate-x-1/2">
+                <div className="absolute -top-px left-1/2 -translate-x-1/2 z-20">
                   <span className="inline-block font-mono text-[10px] text-black bg-accent px-3 py-0.5 rounded-b-md tracking-wide font-semibold">
                     RECOMENDADO
                   </span>
                 </div>
               )}
 
-              <div className="mb-6">
-                <p className="text-sm font-medium text-white/60 mb-1">{tier.name}</p>
-                <div className="flex items-baseline gap-1 mb-3">
-                  <span className="text-3xl font-bold text-white">{tier.price}</span>
-                  {tier.period && (
-                    <span className="text-white/40 text-sm font-mono">{tier.period}</span>
-                  )}
-                </div>
-                <p className="text-sm text-white/40 leading-relaxed">{tier.description}</p>
-              </div>
-
-              <ul className="flex flex-col gap-3 mb-8 flex-1">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5">
-                    <Check
-                      className={`h-3.5 w-3.5 mt-0.5 shrink-0 ${
-                        tier.highlight ? "text-accent" : "text-white/30"
-                      }`}
-                    />
-                    <span className="text-sm text-white/55">{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Button
-                variant={tier.highlight ? "primary" : "secondary"}
-                onClick={scrollToContact}
-                className="w-full"
+              <BorderGlow
+                backgroundColor={tier.highlight ? "#0d1810" : "#111111"}
+                borderRadius={16}
+                glowColor="152 100 50"
+                colors={["#00ff88", "#00cc6a", "#004d29"]}
+                glowRadius={55}
+                glowIntensity={tier.highlight ? 1.4 : 1.0}
+                edgeSensitivity={25}
+                coneSpread={22}
+                fillOpacity={tier.highlight ? 0.45 : 0.3}
+                animated={false}
+                className="h-full"
               >
-                {tier.cta}
-              </Button>
+                <div className="p-7 flex flex-col flex-1">
+                  <div className="mb-6">
+                    <p className="text-sm font-medium text-white/60 mb-1">{tier.name}</p>
+                    <div className="flex items-baseline gap-1 mb-3">
+                      <span className="text-3xl font-bold text-white">{tier.price}</span>
+                      {tier.period && (
+                        <span className="text-white/40 text-sm font-mono">{tier.period}</span>
+                      )}
+                    </div>
+                    <p className="text-sm text-white/40 leading-relaxed">{tier.description}</p>
+                  </div>
+
+                  <ul className="flex flex-col gap-3 mb-8 flex-1">
+                    {tier.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5">
+                        <Check
+                          className={`h-3.5 w-3.5 mt-0.5 shrink-0 ${
+                            tier.highlight ? "text-accent" : "text-white/30"
+                          }`}
+                        />
+                        <span className="text-sm text-white/55">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button
+                    variant={tier.highlight ? "primary" : "secondary"}
+                    onClick={scrollToContact}
+                    className="w-full"
+                  >
+                    {tier.cta}
+                  </Button>
+                </div>
+              </BorderGlow>
             </div>
           ))}
         </div>

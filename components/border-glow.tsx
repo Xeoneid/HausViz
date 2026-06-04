@@ -247,7 +247,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
         />
       </span>
 
-      <div className="flex flex-col relative overflow-auto z-[1]">
+      <div className="flex flex-col relative overflow-auto z-[1] h-full">
         {children}
       </div>
     </div>
